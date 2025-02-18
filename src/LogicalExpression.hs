@@ -4,13 +4,13 @@ data LogicalExpression
   = Lit Literal                                                    -- Literal
   | Var Variable
   | ALoc String                                                    -- Abstract location
-  | UnOp UnaryOperator                                             -- Unary operator
+  | UnOp UnaryOperator LogicalExpression                           -- Unary operator
   | BinOp LogicalExpression BinaryOperator LogicalExpression       -- Binary operator
   | SubList LogicalExpression LogicalExpression LogicalExpression  -- Sublist (list, start, len)
   | List [LogicalExpression]                                       -- List
   | Set [LogicalExpression]                                        -- Set
-  | Exists [(String, Maybe Type)] LogicalExpression               -- Existential quantification
-  | ForAll [(String, Maybe Type)] LogicalExpression               -- Universal quantification
+  | Exists [(Variable, Maybe Type)] LogicalExpression              -- Existential quantification
+  | ForAll [(Variable, Maybe Type)] LogicalExpression              -- Universal quantification
 
 data Literal
   = Undefined
@@ -74,17 +74,23 @@ data Type
   | NullType
   | EmptyType
   | NoneType
-  | BooleanType
+  | BoolType
   | IntType
-  | NumberType
+  | NumType
   | StringType
   | ObjectType
   | ListType
   | TypeType
   | SetType
+  deriving (Eq, Show)
 
 data Variable
   = LVar String | PVar String
+  deriving (Eq, Ord)
+
+var :: Variable -> String
+var (LVar x) = x
+var (PVar x) = x
 
 -- TODO: This differs from Gillian implementation.
 locFromName :: String -> LogicalExpression
