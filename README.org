@@ -3,4 +3,4 @@
 This repository contains Haskell examples of both OX and UX
 sound encoding strategies for checking the satisfiability of symbolic states through SMT solvers.
 
-This example is designed to accompany my MEng Thesis.
+This example is designed to accompany my [[https://github.com/shiva-tk/masters-thesis-report][Master's Thesis]].
